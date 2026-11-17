@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars');
 const { resolve } = require('path');
 const app = express();
 const path = require('path');
+const i18n = require('i18n');
 
 // Configure Handlebars
 app.engine('hbs', engine({ extname: '.hbs' }));
@@ -16,6 +17,14 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'views')));
+
+i18n.configure({
+  locales: ['en', 'ms', 'id'],
+  directory: __dirname + '/locales',
+  defaultLocale: 'en',
+  queryParameter: 'lang', // Allows switching via ?lang=es
+  autoReload: true
+});
 
 // Route
 app.get('/', (req, res) => {
